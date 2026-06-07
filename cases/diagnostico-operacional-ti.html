@@ -3,18 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Diagnostico Operacional de TI | Portfolio Analytics</title>
+    <title>Diagnóstico de Fluxo Operacional de TI | Marcelo Napolioni | Analytics Portfolio</title>
     <meta
       name="description"
-      content="Placeholder de estudo de caso sobre diagnostico operacional de TI."
+      content="Estudo de caso anonimizado sobre diagnóstico de fluxo operacional, uso de pausas e governança de SLA em chamados de TI."
     >
     <link rel="stylesheet" href="../css/styles.css">
   </head>
   <body>
     <header class="site-header">
-      <nav class="container nav" aria-label="Navegacao principal">
-        <a class="brand" href="../index.html">Portfolio Analytics</a>
-        <a class="nav-link" href="../index.html">Inicio</a>
+      <nav class="container nav" aria-label="Navegação principal">
+        <a class="brand" href="../index.html">Marcelo Napolioni | Analytics Portfolio</a>
+        <a class="nav-link" href="../index.html">Início</a>
       </nav>
     </header>
 
@@ -22,74 +22,265 @@
       <section class="page-title">
         <div class="container">
           <p class="eyebrow">Estudo de caso</p>
-          <h1>Diagnostico operacional de TI</h1>
+          <h1>Diagnóstico de fluxo operacional de TI</h1>
           <p>
-            Estrutura inicial para documentar um diagnostico profissional com foco em
-            processos, indicadores, riscos e oportunidades de melhoria.
+            Análise anonimizada em Business Intelligence, Engenharia de Dados,
+            Processos de TI e Governança Operacional sobre o uso de pausas,
+            risco de backlog oculto e confiabilidade gerencial de indicadores de SLA.
           </p>
+          <div class="highlight-row" aria-label="Destaques do estudo de caso">
+            <span>Diagnóstico operacional</span>
+            <span>Histórico por snapshots</span>
+            <span>Indicadores além do SLA</span>
+          </div>
         </div>
       </section>
 
-      <section class="section">
-        <div class="container placeholder-list">
-          <section class="placeholder-section">
+      <section class="section case-study">
+        <div class="container case-content">
+          <section class="case-section">
             <h2>Resumo executivo</h2>
-            <p>Placeholder para sintese do caso.</p>
+            <p>
+              O projeto começou como uma iniciativa de organização de indicadores
+              operacionais em dashboard, mas evoluiu para uma investigação sobre a
+              saúde real do fluxo de chamados de TI. Durante a modelagem dos dados,
+              foi observado uso recorrente de status de suspensão, o que levantou
+              dúvidas sobre a capacidade do SLA, analisado isoladamente, representar
+              a experiência operacional completa.
+            </p>
+            <p>
+              A contribuição central do case foi transformar uma anomalia visual em
+              hipóteses investigáveis por dados históricos, conectando dashboard,
+              snapshots, análise de transições, coortes operacionais e avaliação de
+              governança do processo.
+            </p>
           </section>
 
-          <section class="placeholder-section">
+          <section class="case-section">
             <h2>Contexto do problema</h2>
-            <p>Placeholder para contexto operacional.</p>
+            <p>
+              A operação analisada utilizava um sistema ITSM corporativo para
+              registrar e acompanhar chamados. A gestão era orientada principalmente
+              por SLA e por indicadores agregados de volume, status, filas, grupos de
+              atendimento e encerramentos.
+            </p>
+            <p>
+              Ao decompor melhor os estados dos chamados, ficou claro que a categoria
+              geral de trabalho em andamento misturava situações operacionalmente
+              distintas. Chamados em progresso real, em distribuição, sob responsável
+              funcional ou suspensos não indicavam o mesmo risco nem exigiam a mesma
+              ação gerencial.
+            </p>
           </section>
 
-          <section class="placeholder-section">
+          <section class="case-section">
             <h2>Como o problema foi descoberto</h2>
-            <p>Placeholder para origem do diagnostico.</p>
+            <p>
+              A descoberta ocorreu durante o refinamento do dashboard operacional.
+              Quando os chamados foram separados por status, a suspensão apareceu
+              como um comportamento recorrente, com variação diária perceptível. Essa
+              leitura sugeriu que o status poderia representar mais do que uma pausa
+              excepcional.
+            </p>
+            <p>
+              A análise também indicou risco de baixa rastreabilidade quando campos
+              de responsável funcional apareciam associados a diferentes etapas do
+              fluxo. Isso reforçou a necessidade de diferenciar fila funcional,
+              executor da ação e estado real do chamado.
+            </p>
           </section>
 
-          <section class="placeholder-section">
-            <h2>Hipoteses investigadas</h2>
-            <p>Placeholder para hipoteses de analise.</p>
+          <section class="case-section">
+            <h2>Hipóteses investigadas</h2>
+            <ul>
+              <li>O uso recorrente de suspensão poderia distorcer a leitura de SLA e ocultar problemas de fluxo.</li>
+              <li>A suspensão poderia ter deixado de ser exceção controlada e passado a compor a rotina de algumas filas.</li>
+              <li>Chamados poderiam avançar, ser redistribuídos ou encerrados enquanto permaneciam em status de pausa.</li>
+              <li>O processo real poderia estar desalinhado da documentação formal e da configuração esperada do sistema.</li>
+            </ul>
           </section>
 
-          <section class="placeholder-section">
-            <h2>Abordagem metodologica</h2>
-            <p>Placeholder para metodo e criterios de avaliacao.</p>
+          <section class="case-section">
+            <h2>Abordagem metodológica</h2>
+            <p>
+              A abordagem saiu de uma fotografia estática do dashboard para uma
+              leitura histórica do comportamento dos chamados. A investigação
+              combinou separação conceitual de status, criação de snapshots,
+              definição do universo analítico, análise de transições e análise de
+              coortes por fila ou serviço.
+            </p>
+            <p>
+              Como os snapshots registravam estados observados em momentos de
+              execução, a análise foi tratada como uma visão de entradas e saídas
+              observadas, não como trilha completa de todos os eventos do ITSM.
+            </p>
           </section>
 
-          <section class="placeholder-section">
-            <h2>Solucao tecnica e analitica</h2>
-            <p>Placeholder para arquitetura, dados e analises.</p>
+          <section class="case-section">
+            <h2>Solução técnica e analítica</h2>
+            <p>
+              A solução criou uma camada histórica sobre dados operacionais que, em
+              sua origem, estavam mais orientados ao estado atual dos chamados. A
+              arquitetura analítica combinou ingestão de dados, preservação histórica
+              por append, tratamento de campos, modelagem semântica e visualização em
+              dashboard.
+            </p>
+            <div class="flow-grid" aria-label="Camadas da solução">
+              <div>
+                <h3>Tabela atual</h3>
+                <p>Base para indicadores operacionais recentes, sem duplicação temporal.</p>
+              </div>
+              <div>
+                <h3>Snapshots</h3>
+                <p>Registro histórico de estados observados para formar série temporal.</p>
+              </div>
+              <div>
+                <h3>Tratamento analítico</h3>
+                <p>Padronização de status, datas, grupos, serviços e chaves de análise.</p>
+              </div>
+              <div>
+                <h3>Modelo semântico</h3>
+                <p>Organização de medidas, dimensões e relacionamentos para BI.</p>
+              </div>
+            </div>
           </section>
 
-          <section class="placeholder-section">
+          <section class="case-section">
             <h2>Achados principais</h2>
-            <p>Placeholder para principais evidencias.</p>
+            <ul>
+              <li>O status de suspensão tinha peso relevante no fluxo observado, não apenas no estoque legado.</li>
+              <li>O estoque de chamados suspensos nos grupos de interesse apresentava tendência de crescimento nos snapshots iniciais.</li>
+              <li>Em determinados recortes de fila, a suspensão apareceu como parte relevante da dinâmica operacional.</li>
+              <li>Responsáveis funcionais genéricos reduziam a clareza sobre quem executava a tratativa real.</li>
+              <li>Havia indícios de chamados tratados enquanto permaneciam formalmente suspensos.</li>
+              <li>A prática observada parecia mais informal do que o processo documentado.</li>
+            </ul>
           </section>
 
-          <section class="placeholder-section">
+          <section class="case-section">
             <h2>Indicadores propostos</h2>
-            <p>Placeholder para KPIs e metricas sugeridas.</p>
+            <p>
+              Os indicadores propostos complementam o SLA e ajudam a avaliar fluxo
+              real, backlog oculto, governança de status e qualidade operacional.
+            </p>
+            <ul>
+              <li>Estoque de chamados suspensos.</li>
+              <li>Entradas observadas em suspensão.</li>
+              <li>Saídas observadas de suspensão.</li>
+              <li>Taxa de suspensão por coorte de fila ou serviço.</li>
+              <li>Relação entre suspensões observadas e chamados encerrados.</li>
+              <li>Aging de chamados suspensos.</li>
+              <li>Tempo total em suspensão no ciclo do chamado.</li>
+              <li>Diferença entre ciclo real e leitura formal de SLA.</li>
+            </ul>
           </section>
 
-          <section class="placeholder-section">
+          <section class="case-section">
             <h2>Riscos identificados</h2>
-            <p>Placeholder para riscos operacionais e analiticos.</p>
+            <ul>
+              <li>Backlog oculto por chamados pausados fora do foco gerencial.</li>
+              <li>Leitura distorcida de SLA quando a pausa reduz a pressão sobre o indicador formal.</li>
+              <li>Baixa responsabilização causada por responsáveis funcionais genéricos.</li>
+              <li>Normalização da exceção, com suspensão usada como etapa informal do processo.</li>
+              <li>Quebra da semântica do status quando o chamado continua sendo tratado durante a pausa.</li>
+              <li>Baixa qualidade de dado quando motivos de pausa, logs e justificativas não são estruturados.</li>
+              <li>Desalinhamento entre processo documentado, configuração do sistema e prática real.</li>
+            </ul>
           </section>
 
-          <section class="placeholder-section">
+          <section class="case-section">
             <h2>Melhorias sugeridas</h2>
-            <p>Placeholder para recomendacoes e proximos passos.</p>
+            <ul>
+              <li>Separar status operacional de motivo de pendência.</li>
+              <li>Tornar obrigatória a justificativa de suspensão, com motivo estruturado.</li>
+              <li>Registrar o usuário executor da ação, independentemente do responsável funcional.</li>
+              <li>Definir regras claras de transição para chamados suspensos, resolvidos e encerrados.</li>
+              <li>Criar alertas de aging para chamados suspensos acima de limites definidos pela gestão.</li>
+              <li>Estabelecer quando o SLA deve pausar e quando deve continuar contando.</li>
+              <li>Implantar revisão periódica dos chamados suspensos por gestor, grupo e serviço.</li>
+              <li>Incluir indicadores de suspensão, aging e ciclo real nos ritos de governança.</li>
+            </ul>
           </section>
 
-          <section class="placeholder-section">
-            <h2>Competencias demonstradas</h2>
-            <p>Placeholder para competencias tecnicas e de negocio.</p>
+          <section class="case-section">
+            <h2>Competências demonstradas</h2>
+            <div class="skills-grid">
+              <article class="skill-card">
+                <h3>Business Intelligence</h3>
+                <p>Construção de indicadores e leitura gerencial para apoiar o acompanhamento operacional.</p>
+              </article>
+              <article class="skill-card">
+                <h3>Engenharia de Dados</h3>
+                <p>Organização de bases operacionais e preservação histórica para análise recorrente.</p>
+              </article>
+              <article class="skill-card">
+                <h3>SQL e modelagem analítica</h3>
+                <p>Estruturação de consultas, medidas e dimensões orientadas ao uso em BI.</p>
+              </article>
+              <article class="skill-card">
+                <h3>Análise de processos</h3>
+                <p>Leitura do fluxo real de atendimento a partir de status, filas e transições observadas.</p>
+              </article>
+              <article class="skill-card">
+                <h3>Governança operacional</h3>
+                <p>Identificação de riscos de rastreabilidade, responsabilização e aderência ao processo.</p>
+              </article>
+              <article class="skill-card">
+                <h3>Pensamento sistêmico</h3>
+                <p>Conexão entre dados, processo, indicadores e decisão gerencial.</p>
+              </article>
+              <article class="skill-card">
+                <h3>Comunicação executiva</h3>
+                <p>Síntese dos achados em linguagem objetiva para discussão com gestão.</p>
+              </article>
+            </div>
           </section>
 
-          <section class="placeholder-section">
+          <section class="case-section">
+            <h2>Stack e técnicas utilizadas</h2>
+            <ul class="stack-list">
+              <li>Business Intelligence</li>
+              <li>SQL</li>
+              <li>Modelagem analítica</li>
+              <li>Snapshots históricos</li>
+              <li>Análise de transições</li>
+              <li>Análise de coorte</li>
+              <li>Indicadores operacionais</li>
+              <li>Camada semântica</li>
+              <li>Dashboard gerencial</li>
+            </ul>
+          </section>
+
+          <section class="case-section">
+            <h2>Conclusão</h2>
+            <p>
+              O case mostra como uma demanda de dashboard pode evoluir para um
+              diagnóstico operacional estruturado. A investigação indicou que medir
+              chamados não basta: é preciso entender se o fluxo é rastreável, se as
+              pausas possuem critério, se o backlog está visível e se os indicadores
+              representam a prática real.
+            </p>
+            <p>
+              O resultado foi uma abordagem capaz de conectar dados, processo e
+              decisão. A correção institucional dependeria de coordenação entre
+              liderança, donos de processo, governança de TI e responsáveis pelo
+              sistema ITSM.
+            </p>
+          </section>
+
+          <section class="case-section download-section">
             <h2>Download do PDF</h2>
-            <p>Placeholder para link futuro do material em PDF.</p>
+            <p>
+              A versão em PDF contém a narrativa anonimizada do estudo de caso e deve
+              ser usada apenas como material complementar.
+            </p>
+            <a
+              class="button"
+              href="../assets/diagnostico-operacional-ti.pdf"
+              download
+            >
+              Baixar PDF do case
+            </a>
           </section>
         </div>
       </section>
@@ -97,7 +288,7 @@
 
     <footer class="site-footer">
       <div class="container">
-        <p>Portfolio profissional publicado via GitHub Pages.</p>
+        <p>Portfólio profissional publicado via GitHub Pages.</p>
       </div>
     </footer>
   </body>
