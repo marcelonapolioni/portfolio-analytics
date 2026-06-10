@@ -6,7 +6,7 @@
     <title>Diagnóstico de Fluxo Operacional de TI | Marcelo Napolioni | Analytics Portfolio</title>
     <meta
       name="description"
-      content="Estudo de caso anonimizado sobre diagnóstico de fluxo operacional, uso de pausas e governança de SLA em chamados de TI."
+      content="Estudo de caso anonimizado sobre diagnóstico de fluxo operacional, transições de status, uso de pausas e governança de SLA em chamados de TI."
     >
     <link rel="stylesheet" href="../css/styles.css">
   </head>
@@ -25,12 +25,13 @@
           <h1>Diagnóstico de fluxo operacional de TI</h1>
           <p>
             Análise anonimizada em Business Intelligence, Engenharia de Dados,
-            Processos de TI e Governança Operacional sobre o uso de pausas,
-            risco de backlog oculto e confiabilidade gerencial de indicadores de SLA.
+            Processos de TI e Governança Operacional sobre transições de status,
+            uso de pausas, risco de backlog oculto e confiabilidade gerencial de indicadores de SLA.
           </p>
           <div class="highlight-row" aria-label="Destaques do estudo de caso">
             <span>Diagnóstico operacional</span>
             <span>Histórico por snapshots</span>
+            <span>Análise de transições</span>
             <span>Indicadores além do SLA</span>
           </div>
         </div>
@@ -54,6 +55,13 @@
               snapshots, análise de transições, coortes operacionais e avaliação de
               governança do processo.
             </p>
+            <p>
+              Em uma etapa posterior, a análise de um serviço crítico revelou baixa
+              incidência observável do status de tratativa ativa, recorrência de
+              chamados suspensos e transições diretas da etapa de distribuição para
+              resolução. Esses achados reforçaram a hipótese de que o fluxo registrado
+              no sistema não representava integralmente o fluxo real de atendimento.
+            </p>
           </section>
 
           <section class="case-section">
@@ -70,6 +78,13 @@
               distintas. Chamados em progresso real, em distribuição, sob responsável
               funcional ou suspensos não indicavam o mesmo risco nem exigiam a mesma
               ação gerencial.
+            </p>
+            <p>
+              Também foi identificado que determinados estados estavam associados a
+              responsabilidades funcionais específicas. Em especial, a etapa de
+              distribuição aparecia vinculada a um responsável genérico, o que exigiu
+              separar a análise entre responsável formal no sistema, executor real da
+              tratativa e status operacional do chamado.
             </p>
           </section>
 
@@ -96,6 +111,8 @@
               <li>O uso recorrente de suspensão poderia distorcer a leitura de SLA e ocultar problemas de fluxo.</li>
               <li>A suspensão poderia ter deixado de ser exceção controlada e passado a compor a rotina de algumas filas.</li>
               <li>Chamados poderiam avançar, ser redistribuídos ou encerrados enquanto permaneciam em status de pausa.</li>
+              <li>O status de tratativa ativa poderia ter baixa permanência observável ou baixa aderência ao fluxo real.</li>
+              <li>Alguns chamados poderiam ser resolvidos diretamente a partir da etapa de distribuição, sem passagem observável pela tratativa formal.</li>
               <li>O processo real poderia estar desalinhado da documentação formal e da configuração esperada do sistema.</li>
             </ul>
           </section>
@@ -113,6 +130,9 @@
               Como os snapshots registravam estados observados em momentos de
               execução, a análise foi tratada como uma visão de entradas e saídas
               observadas, não como trilha completa de todos os eventos do ITSM.
+              Por isso, passagens muito curtas entre status poderiam não ser capturadas,
+              mas padrões recorrentes observados nos snapshots foram considerados
+              indícios relevantes para investigação operacional.
             </p>
           </section>
 
@@ -146,6 +166,49 @@
           </section>
 
           <section class="case-section">
+            <h2>Aprofundamento em serviço de gestão de ativos</h2>
+            <p>
+              Um recorte posterior foi realizado em um serviço de gestão de ativos,
+              por apresentar volume expressivo de chamados suspensos e relevância
+              operacional para a área analisada. A análise de maio concentrou-se na
+              trajetória dos chamados entre estados, principalmente nas transições
+              envolvendo distribuição, tratativa ativa, suspensão, resolução e
+              encerramento.
+            </p>
+            <p>
+              O padrão observado indicou forte assimetria entre chamados suspensos e
+              chamados em tratativa ativa. Poucos chamados apareceram em status de
+              progresso formal, enquanto o status de suspensão concentrou parte
+              relevante do fluxo observado. Além disso, os poucos chamados que
+              passaram pela etapa de tratativa ativa tenderam, em alguns casos, a ser
+              suspensos no mesmo dia.
+            </p>
+            <p>
+              Também foram identificadas transições diretas da etapa de distribuição
+              para resolução. Como essa etapa estava associada a um responsável
+              genérico de triagem ou distribuição, o achado sugere que parte dos
+              chamados podia ser resolvida antes de uma passagem observável pela
+              tratativa formal ou antes de uma atribuição clara a um executor
+              operacional no histórico analisado.
+            </p>
+            <ul>
+              <li>Baixa incidência observável do status de tratativa ativa.</li>
+              <li>Recorrência de chamados em status de suspensão.</li>
+              <li>Casos de tratativa ativa seguida de suspensão no mesmo dia.</li>
+              <li>Transições diretas de distribuição para resolução.</li>
+              <li>Indícios de resolução ou encerramento a partir de estados que não deveriam representar execução sustentada do trabalho.</li>
+            </ul>
+            <p>
+              Esses achados não foram tratados como prova isolada de comportamento
+              intencional, mas como evidência de baixa aderência entre fluxo formal,
+              registro sistêmico e fluxo real de atendimento. A conclusão analítica
+              foi que a operação precisava ser avaliada para além do SLA agregado,
+              incorporando rastreabilidade, tempo de permanência por status e regras
+              claras de transição.
+            </p>
+          </section>
+
+          <section class="case-section">
             <h2>Achados principais</h2>
             <ul>
               <li>O status de suspensão tinha peso relevante no fluxo observado, não apenas no estoque legado.</li>
@@ -153,6 +216,9 @@
               <li>Em determinados recortes de fila, a suspensão apareceu como parte relevante da dinâmica operacional.</li>
               <li>Responsáveis funcionais genéricos reduziam a clareza sobre quem executava a tratativa real.</li>
               <li>Havia indícios de chamados tratados enquanto permaneciam formalmente suspensos.</li>
+              <li>Em um serviço crítico, poucos chamados passaram por tratativa ativa observável nos snapshots.</li>
+              <li>Alguns chamados foram observados saindo diretamente da distribuição para resolução.</li>
+              <li>Chamados com breve passagem por tratativa ativa podiam ser suspensos no mesmo dia.</li>
               <li>A prática observada parecia mais informal do que o processo documentado.</li>
             </ul>
           </section>
@@ -172,6 +238,10 @@
               <li>Aging de chamados suspensos.</li>
               <li>Tempo total em suspensão no ciclo do chamado.</li>
               <li>Diferença entre ciclo real e leitura formal de SLA.</li>
+              <li>Quantidade de chamados com transição direta de distribuição para resolução.</li>
+              <li>Quantidade de chamados com transição de suspensão para resolução ou encerramento.</li>
+              <li>Quantidade de chamados com tratativa ativa seguida de suspensão no mesmo dia.</li>
+              <li>Participação do responsável genérico de triagem ou distribuição no ciclo dos chamados.</li>
             </ul>
           </section>
 
@@ -183,6 +253,8 @@
               <li>Baixa responsabilização causada por responsáveis funcionais genéricos.</li>
               <li>Normalização da exceção, com suspensão usada como etapa informal do processo.</li>
               <li>Quebra da semântica do status quando o chamado continua sendo tratado durante a pausa.</li>
+              <li>Resolução de chamados sem passagem observável pela etapa formal de tratativa ativa.</li>
+              <li>Ambiguidade entre triagem, distribuição, execução e encerramento.</li>
               <li>Baixa qualidade de dado quando motivos de pausa, logs e justificativas não são estruturados.</li>
               <li>Desalinhamento entre processo documentado, configuração do sistema e prática real.</li>
             </ul>
@@ -194,12 +266,31 @@
               <li>Separar status operacional de motivo de pendência.</li>
               <li>Tornar obrigatória a justificativa de suspensão, com motivo estruturado.</li>
               <li>Registrar o usuário executor da ação, independentemente do responsável funcional.</li>
+              <li>Definir o papel esperado da triagem ou distribuição, distinguindo encaminhamento, execução e resolução.</li>
               <li>Definir regras claras de transição para chamados suspensos, resolvidos e encerrados.</li>
+              <li>Exigir retorno para tratativa ativa quando um chamado suspenso voltar a ser trabalhado.</li>
               <li>Criar alertas de aging para chamados suspensos acima de limites definidos pela gestão.</li>
               <li>Estabelecer quando o SLA deve pausar e quando deve continuar contando.</li>
               <li>Implantar revisão periódica dos chamados suspensos por gestor, grupo e serviço.</li>
-              <li>Incluir indicadores de suspensão, aging e ciclo real nos ritos de governança.</li>
+              <li>Incluir indicadores de suspensão, aging, distribuição e ciclo real nos ritos de governança.</li>
             </ul>
+          </section>
+
+          <section class="case-section">
+            <h2>Limites de escopo e governança da correção</h2>
+            <p>
+              A análise demonstrou que a correção do problema não dependeria apenas
+              de melhorias no dashboard. A alteração de regras de status, permissões,
+              filas, responsáveis e critérios de SLA exige decisão funcional da
+              liderança e dos responsáveis pelo sistema ITSM.
+            </p>
+            <p>
+              O papel analítico do projeto foi produzir evidências, explicitar riscos,
+              propor indicadores e indicar pontos de revisão. A parametrização do
+              sistema e a redefinição do processo operacional deveriam ser conduzidas
+              por quem possui autoridade sobre a ferramenta, os fluxos e as regras de
+              atendimento.
+            </p>
           </section>
 
           <section class="case-section">
@@ -259,6 +350,14 @@
               chamados não basta: é preciso entender se o fluxo é rastreável, se as
               pausas possuem critério, se o backlog está visível e se os indicadores
               representam a prática real.
+            </p>
+            <p>
+              As novas análises reforçaram que um indicador agregado de SLA pode ser
+              insuficiente quando o ciclo de vida dos chamados apresenta baixa
+              aderência ao fluxo formal. A predominância de suspensão, a baixa
+              incidência observável de tratativa ativa e as transições diretas de
+              distribuição para resolução apontam para um problema de representação
+              operacional, não apenas para um problema de visualização.
             </p>
             <p>
               O resultado foi uma abordagem capaz de conectar dados, processo e
