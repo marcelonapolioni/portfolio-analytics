@@ -178,6 +178,21 @@ p {
   color: var(--color-muted);
 }
 
+.case-links {
+  display: grid;
+  gap: 8px;
+  flex: 0 0 280px;
+}
+
+.case-section .scope-note,
+.subheading {
+  margin-top: 20px;
+}
+
+.case-section ol {
+  padding-left: 22px;
+}
+
 .page-title {
   padding: 56px 0 32px;
   background: var(--color-surface);
@@ -226,6 +241,14 @@ p {
 
 .case-section h2 {
   margin-bottom: 14px;
+}
+
+.delivery-section {
+  border-left: 4px solid var(--color-accent);
+}
+
+.proposal-section {
+  border: 2px dashed var(--color-border);
 }
 
 .case-section p + p {
@@ -329,6 +352,10 @@ p {
 }
 
 @media (max-width: 720px) {
+  .case-links {
+    flex-basis: auto;
+  }
+
   .nav,
   .case-card {
     align-items: flex-start;

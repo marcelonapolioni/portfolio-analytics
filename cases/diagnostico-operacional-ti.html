@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Diagnóstico de Fluxo Operacional de TI | Marcelo Napolioni | Analytics Portfolio</title>
+    <title>Diagnóstico do Fluxo Operacional de TI | Marcelo Napolioni | Analytics Portfolio</title>
     <meta
       name="description"
-      content="Estudo de caso anonimizado sobre diagnóstico de fluxo operacional, transições de status, uso de pausas e governança de SLA em chamados de TI."
+      content="Aprofundamento analítico do projeto de observabilidade: raciocínio, estados observados, entregas, recomendações e limites da evidência."
     >
     <link rel="stylesheet" href="../css/styles.css">
   </head>
@@ -14,372 +14,88 @@
     <header class="site-header">
       <nav class="container nav" aria-label="Navegação principal">
         <a class="brand" href="../index.html">Marcelo Napolioni | Analytics Portfolio</a>
-        <a class="nav-link" href="../index.html">Início</a>
+        <a class="nav-link" href="../index.html#estudos-de-caso">Estudos de caso</a>
       </nav>
     </header>
 
     <main>
       <section class="page-title">
         <div class="container">
-          <p class="eyebrow">Estudo de caso</p>
-          <h1>Diagnóstico de fluxo operacional de TI</h1>
-          <p>
-            Análise anonimizada em Business Intelligence, Engenharia de Dados,
-            Processos de TI e Governança Operacional sobre transições de status,
-            uso de pausas, risco de backlog oculto e confiabilidade gerencial de indicadores de SLA.
-          </p>
-          <div class="highlight-row" aria-label="Destaques do estudo de caso">
-            <span>Diagnóstico operacional</span>
-            <span>Histórico por snapshots</span>
-            <span>Análise de transições</span>
-            <span>Indicadores além do SLA</span>
+          <p class="eyebrow">Observabilidade de chamados de TI · Aprofundamento analítico</p>
+          <h1>Diagnóstico do fluxo operacional de TI</h1>
+          <p>Investiguei chamados registrados como suspensos para compreender o que o SLA, isoladamente, deixava pouco visível sobre esperas e evolução do atendimento.</p>
+          <p>Este diagnóstico aprofunda o mesmo projeto de <a href="observabilidade-chamados-ti.html">Observabilidade do Ciclo de Vida de Chamados de TI</a>: o dashboard e o histórico são a base técnica; aqui apresento o raciocínio e as recomendações.</p>
+          <div class="highlight-row" aria-label="Escopo do trabalho">
+            <span>Dashboard e histórico construídos</span>
+            <span>Diagnóstico apresentado</span>
+            <span>Recomendações não implementadas</span>
           </div>
         </div>
       </section>
-
-      <section class="section case-study">
+      <section class="section case-study" aria-label="Relato do diagnóstico">
         <div class="container case-content">
           <section class="case-section">
-            <h2>Resumo executivo</h2>
-            <p>
-              O projeto começou como uma iniciativa de organização de indicadores
-              operacionais em dashboard, mas evoluiu para uma investigação sobre a
-              saúde real do fluxo de chamados de TI. Durante a modelagem dos dados,
-              foi observado uso recorrente de status de suspensão, o que levantou
-              dúvidas sobre a capacidade do SLA, analisado isoladamente, representar
-              a experiência operacional completa.
-            </p>
-            <p>
-              A contribuição central do case foi transformar uma anomalia visual em
-              hipóteses investigáveis por dados históricos, conectando dashboard,
-              snapshots, análise de transições, coortes operacionais e avaliação de
-              governança do processo.
-            </p>
-            <p>
-              Em uma etapa posterior, a análise de um serviço crítico revelou baixa
-              incidência observável do status de tratativa ativa, recorrência de
-              chamados suspensos e transições diretas da etapa de distribuição para
-              resolução. Esses achados reforçaram a hipótese de que o fluxo registrado
-              no sistema não representava integralmente o fluxo real de atendimento.
-            </p>
+            <h2>Contexto e problema: o estado atual não explicava o percurso</h2>
+            <p>Durante a construção de um dashboard de chamados de TI, identifiquei a presença recorrente de registros em suspensão. A agregação dos status dificultava distinguir esses chamados dos registrados como em progresso.</p>
+            <p>Na configuração acessível ao trabalho, o sistema ITSM não dispunha de um audit log com evidências históricas suficientes para essa investigação. Os dados privilegiavam o estado atual; essa era uma limitação do histórico disponível naquele contexto, não uma afirmação de incapacidade do produto.</p>
           </section>
-
           <section class="case-section">
-            <h2>Contexto do problema</h2>
-            <p>
-              A operação analisada utilizava um sistema ITSM corporativo para
-              registrar e acompanhar chamados. A gestão era orientada principalmente
-              por SLA e por indicadores agregados de volume, status, filas, grupos de
-              atendimento e encerramentos.
-            </p>
-            <p>
-              Ao decompor melhor os estados dos chamados, ficou claro que a categoria
-              geral de trabalho em andamento misturava situações operacionalmente
-              distintas. Chamados em progresso real, em distribuição, sob responsável
-              funcional ou suspensos não indicavam o mesmo risco nem exigiam a mesma
-              ação gerencial.
-            </p>
-            <p>
-              Também foi identificado que determinados estados estavam associados a
-              responsabilidades funcionais específicas. Em especial, a etapa de
-              distribuição aparecia vinculada a um responsável genérico, o que exigiu
-              separar a análise entre responsável formal no sistema, executor real da
-              tratativa e status operacional do chamado.
-            </p>
+            <h2>Raciocínio: transformar um sinal em hipótese</h2>
+            <p>Minha hipótese foi que acompanhar apenas o SLA poderia deixar pouco visíveis situações de espera prolongada e chamados que exigiam revisão. A recorrência de suspensão justificava investigar motivos, regras de contagem e evolução dos estados, sem antecipar uma conclusão.</p>
+            <p>Não confundi status registrado com atividade efetiva: estar em progresso não comprova atendimento ativo, assim como estar suspenso não comprova pausa indevida ou falha de atendimento.</p>
           </section>
-
           <section class="case-section">
-            <h2>Como o problema foi descoberto</h2>
-            <p>
-              A descoberta ocorreu durante o refinamento do dashboard operacional.
-              Quando os chamados foram separados por status, a suspensão apareceu
-              como um comportamento recorrente, com variação diária perceptível. Essa
-              leitura sugeriu que o status poderia representar mais do que uma pausa
-              excepcional.
-            </p>
-            <p>
-              A análise também indicou risco de baixa rastreabilidade quando campos
-              de responsável funcional apareciam associados a diferentes etapas do
-              fluxo. Isso reforçou a necessidade de diferenciar fila funcional,
-              executor da ação e estado real do chamado.
-            </p>
+            <h2>Abordagem: construir uma base de observações</h2>
+            <p>Utilizei snapshots diários para preservar estados dos chamados e comparar registros entre datas. Com esse histórico e o dashboard, investiguei diferenças de status e acompanhei os chamados no período observado.</p>
+            <p>Tratei as diferenças como sinais para investigação, dentro da resolução temporal das coletas. Documentei os limites e traduzi a análise em recomendações de rastreabilidade e governança.</p>
+            <p><a class="text-link" href="observabilidade-chamados-ti.html">Conhecer a base técnica de observabilidade</a></p>
           </section>
-
-          <section class="case-section">
-            <h2>Hipóteses investigadas</h2>
-            <ul>
-              <li>O uso recorrente de suspensão poderia distorcer a leitura de SLA e ocultar problemas de fluxo.</li>
-              <li>A suspensão poderia ter deixado de ser exceção controlada e passado a compor a rotina de algumas filas.</li>
-              <li>Chamados poderiam avançar, ser redistribuídos ou encerrados enquanto permaneciam em status de pausa.</li>
-              <li>O status de tratativa ativa poderia ter baixa permanência observável ou baixa aderência ao fluxo real.</li>
-              <li>Alguns chamados poderiam ser resolvidos diretamente a partir da etapa de distribuição, sem passagem observável pela tratativa formal.</li>
-              <li>O processo real poderia estar desalinhado da documentação formal e da configuração esperada do sistema.</li>
-            </ul>
-          </section>
-
-          <section class="case-section">
-            <h2>Abordagem metodológica</h2>
-            <p>
-              A abordagem saiu de uma fotografia estática do dashboard para uma
-              leitura histórica do comportamento dos chamados. A investigação
-              combinou separação conceitual de status, criação de snapshots,
-              definição do universo analítico, análise de transições e análise de
-              coortes por fila ou serviço.
-            </p>
-            <p>
-              Como os snapshots registravam estados observados em momentos de
-              execução, a análise foi tratada como uma visão de entradas e saídas
-              observadas, não como trilha completa de todos os eventos do ITSM.
-              Por isso, passagens muito curtas entre status poderiam não ser capturadas,
-              mas padrões recorrentes observados nos snapshots foram considerados
-              indícios relevantes para investigação operacional.
-            </p>
-          </section>
-
-          <section class="case-section">
-            <h2>Solução técnica e analítica</h2>
-            <p>
-              A solução criou uma camada histórica sobre dados operacionais que, em
-              sua origem, estavam mais orientados ao estado atual dos chamados. A
-              arquitetura analítica combinou ingestão de dados, preservação histórica
-              por append, tratamento de campos, modelagem semântica e visualização em
-              dashboard.
-            </p>
-            <div class="flow-grid" aria-label="Camadas da solução">
-              <div>
-                <h3>Tabela atual</h3>
-                <p>Base para indicadores operacionais recentes, sem duplicação temporal.</p>
-              </div>
-              <div>
-                <h3>Snapshots</h3>
-                <p>Registro histórico de estados observados para formar série temporal.</p>
-              </div>
-              <div>
-                <h3>Tratamento analítico</h3>
-                <p>Padronização de status, datas, grupos, serviços e chaves de análise.</p>
-              </div>
-              <div>
-                <h3>Modelo semântico</h3>
-                <p>Organização de medidas, dimensões e relacionamentos para BI.</p>
-              </div>
+          <section class="case-section delivery-section">
+            <p class="eyebrow">Entregas</p>
+            <h2>O que realizei e apresentei</h2>
+            <div class="flow-grid">
+              <div><h3>Realizado</h3><p>Construí o dashboard e o histórico por snapshots diários. Investiguei os estados observados e as limitações de rastreabilidade.</p></div>
+              <div><h3>Apresentado</h3><p>Documentei e apresentei o diagnóstico e as recomendações para aprimorar a visibilidade e a governança operacional.</p></div>
             </div>
+            <p class="scope-note"><strong>As recomendações foram apresentadas, mas não foram implementadas durante meu período de atuação.</strong> Não atribuo ao trabalho redução de backlog, melhoria de SLA, ganho de produtividade ou mudança na experiência do usuário sem evidência desses efeitos.</p>
           </section>
-
-          <section class="case-section">
-            <h2>Aprofundamento em serviço de gestão de ativos</h2>
-            <p>
-              Um recorte posterior foi realizado em um serviço de gestão de ativos,
-              por apresentar volume expressivo de chamados suspensos e relevância
-              operacional para a área analisada. A análise de maio concentrou-se na
-              trajetória dos chamados entre estados, principalmente nas transições
-              envolvendo distribuição, tratativa ativa, suspensão, resolução e
-              encerramento.
-            </p>
-            <p>
-              O padrão observado indicou forte assimetria entre chamados suspensos e
-              chamados em tratativa ativa. Poucos chamados apareceram em status de
-              progresso formal, enquanto o status de suspensão concentrou parte
-              relevante do fluxo observado. Além disso, os poucos chamados que
-              passaram pela etapa de tratativa ativa tenderam, em alguns casos, a ser
-              suspensos no mesmo dia.
-            </p>
-            <p>
-              Também foram identificadas transições diretas da etapa de distribuição
-              para resolução. Como essa etapa estava associada a um responsável
-              genérico de triagem ou distribuição, o achado sugere que parte dos
-              chamados podia ser resolvida antes de uma passagem observável pela
-              tratativa formal ou antes de uma atribuição clara a um executor
-              operacional no histórico analisado.
-            </p>
+          <section class="case-section proposal-section">
+            <p class="eyebrow">Propostas · Sem implantação no período</p>
+            <h2>Evolução recomendada</h2>
+            <p>Organizei as recomendações por dependência, sem representar um cronograma aprovado ou executado:</p>
+            <ol>
+              <li><strong>Qualificar status e motivos.</strong> Definir estados, critérios de suspensão e motivos estruturados; separar visualmente suspensos dos demais abertos, considerando o serviço e suas dependências.</li>
+              <li><strong>Definir acompanhamento e revisão.</strong> Estabelecer responsável e rotina para revisar suspensos, identificar bloqueios e encaminhar a próxima ação. A proposta não pressupõe ausência comprovada de responsáveis.</li>
+              <li><strong>Aprimorar a rastreabilidade.</strong> Avaliar um audit log nativo que preserve eventos e horários, mantendo snapshots como complemento analítico.</li>
+              <li><strong>Ampliar a leitura gerencial.</strong> Avaliar indicadores complementares com definições, calendários e regras de cálculo documentados.</li>
+            </ol>
+            <h3 class="subheading">Indicadores como possibilidades de evolução</h3>
             <ul>
-              <li>Baixa incidência observável do status de tratativa ativa.</li>
-              <li>Recorrência de chamados em status de suspensão.</li>
-              <li>Casos de tratativa ativa seguida de suspensão no mesmo dia.</li>
-              <li>Transições diretas de distribuição para resolução.</li>
-              <li>Indícios de resolução ou encerramento a partir de estados que não deveriam representar execução sustentada do trabalho.</li>
+              <li><strong>Estoque e proporção de suspensos:</strong> contagem na coleta e participação entre abertos da mesma população; descrevem composição, não irregularidade.</li>
+              <li><strong>Idade do chamado aberto:</strong> tempo da abertura até a data de referência, distinto da duração da suspensão.</li>
+              <li><strong>Primeira suspensão observada:</strong> primeira coleta em que o chamado aparece suspenso; pode não ser a primeira suspensão efetiva.</li>
+              <li><strong>Permanência estimada em suspensão:</strong> estimativa que deve declarar frequência de coleta, lacunas e regra de atribuição dos intervalos.</li>
             </ul>
-            <p>
-              Esses achados não foram tratados como prova isolada de comportamento
-              intencional, mas como evidência de baixa aderência entre fluxo formal,
-              registro sistêmico e fluxo real de atendimento. A conclusão analítica
-              foi que a operação precisava ser avaliada para além do SLA agregado,
-              incorporando rastreabilidade, tempo de permanência por status e regras
-              claras de transição.
-            </p>
+            <p class="scope-note">Uma futura avaliação exigiria verificar cobertura do histórico, qualidade dos motivos e realização das revisões, comparando períodos e grupos equivalentes. Esses critérios não são resultados alcançados.</p>
           </section>
-
           <section class="case-section">
-            <h2>Achados principais</h2>
-            <ul>
-              <li>O status de suspensão tinha peso relevante no fluxo observado, não apenas no estoque legado.</li>
-              <li>O estoque de chamados suspensos nos grupos de interesse apresentava tendência de crescimento nos snapshots iniciais.</li>
-              <li>Em determinados recortes de fila, a suspensão apareceu como parte relevante da dinâmica operacional.</li>
-              <li>Responsáveis funcionais genéricos reduziam a clareza sobre quem executava a tratativa real.</li>
-              <li>Havia indícios de chamados tratados enquanto permaneciam formalmente suspensos.</li>
-              <li>Em um serviço crítico, poucos chamados passaram por tratativa ativa observável nos snapshots.</li>
-              <li>Alguns chamados foram observados saindo diretamente da distribuição para resolução.</li>
-              <li>Chamados com breve passagem por tratativa ativa podiam ser suspensos no mesmo dia.</li>
-              <li>A prática observada parecia mais informal do que o processo documentado.</li>
-            </ul>
+            <h2>Limites: o que os dados não comprovam</h2>
+            <p><strong>Snapshots diários registram estados observados e não substituem um audit log.</strong> Não comprovam todas as transições, seus horários exatos ou o tempo exato acumulado em suspensão. Entre coletas, podem existir etapas intermediárias e saídas com retorno ao mesmo status.</p>
+            <p>Por isso, uma diferença entre observações não comprova transição direta. Um histórico parcial também não permite afirmar a primeira suspensão de toda a vida do chamado.</p>
+            <h3 class="subheading">Tempo de ciclo e SLA têm definições distintas</h3>
+            <p>Distingo o tempo total entre abertura e encerramento do tempo contabilizado pela regra de SLA. Para chamados abertos, considero a idade até a data de referência.</p>
+            <p><strong>A diferença entre esses tempos não é prova de irregularidade.</strong> Ela pode refletir calendários, horários de atendimento e pausas legítimas. A comparação exige compatibilizar unidades, marcos de início e fim e regras aplicáveis.</p>
+            <p>Esta versão pública é qualitativa: não apresenta uma série que permita dimensionar ou reproduzir quantitativamente os achados. Preservo a anonimização, sem dados internos, identificadores de chamados, imagens de sistemas ou regras contratuais específicas.</p>
           </section>
-
           <section class="case-section">
-            <h2>Indicadores propostos</h2>
-            <p>
-              Os indicadores propostos complementam o SLA e ajudam a avaliar fluxo
-              real, backlog oculto, governança de status e qualidade operacional.
-            </p>
-            <ul>
-              <li>Estoque de chamados suspensos.</li>
-              <li>Entradas observadas em suspensão.</li>
-              <li>Saídas observadas de suspensão.</li>
-              <li>Taxa de suspensão por coorte de fila ou serviço.</li>
-              <li>Relação entre suspensões observadas e chamados encerrados.</li>
-              <li>Aging de chamados suspensos.</li>
-              <li>Tempo total em suspensão no ciclo do chamado.</li>
-              <li>Diferença entre ciclo real e leitura formal de SLA.</li>
-              <li>Quantidade de chamados com transição direta de distribuição para resolução.</li>
-              <li>Quantidade de chamados com transição de suspensão para resolução ou encerramento.</li>
-              <li>Quantidade de chamados com tratativa ativa seguida de suspensão no mesmo dia.</li>
-              <li>Participação do responsável genérico de triagem ou distribuição no ciclo dos chamados.</li>
-            </ul>
+            <h2>Minha contribuição</h2>
+            <p>Conectei a construção de uma solução de BI à investigação do processo representado pelos dados: identifiquei uma pergunta operacional, construí histórico com os recursos disponíveis e apresentei recomendações, explicitando o que era observável e o que permanecia sem comprovação.</p>
           </section>
-
-          <section class="case-section">
-            <h2>Riscos identificados</h2>
-            <ul>
-              <li>Backlog oculto por chamados pausados fora do foco gerencial.</li>
-              <li>Leitura distorcida de SLA quando a pausa reduz a pressão sobre o indicador formal.</li>
-              <li>Baixa responsabilização causada por responsáveis funcionais genéricos.</li>
-              <li>Normalização da exceção, com suspensão usada como etapa informal do processo.</li>
-              <li>Quebra da semântica do status quando o chamado continua sendo tratado durante a pausa.</li>
-              <li>Resolução de chamados sem passagem observável pela etapa formal de tratativa ativa.</li>
-              <li>Ambiguidade entre triagem, distribuição, execução e encerramento.</li>
-              <li>Baixa qualidade de dado quando motivos de pausa, logs e justificativas não são estruturados.</li>
-              <li>Desalinhamento entre processo documentado, configuração do sistema e prática real.</li>
-            </ul>
-          </section>
-
-          <section class="case-section">
-            <h2>Melhorias sugeridas</h2>
-            <ul>
-              <li>Separar status operacional de motivo de pendência.</li>
-              <li>Tornar obrigatória a justificativa de suspensão, com motivo estruturado.</li>
-              <li>Registrar o usuário executor da ação, independentemente do responsável funcional.</li>
-              <li>Definir o papel esperado da triagem ou distribuição, distinguindo encaminhamento, execução e resolução.</li>
-              <li>Definir regras claras de transição para chamados suspensos, resolvidos e encerrados.</li>
-              <li>Exigir retorno para tratativa ativa quando um chamado suspenso voltar a ser trabalhado.</li>
-              <li>Criar alertas de aging para chamados suspensos acima de limites definidos pela gestão.</li>
-              <li>Estabelecer quando o SLA deve pausar e quando deve continuar contando.</li>
-              <li>Implantar revisão periódica dos chamados suspensos por gestor, grupo e serviço.</li>
-              <li>Incluir indicadores de suspensão, aging, distribuição e ciclo real nos ritos de governança.</li>
-            </ul>
-          </section>
-
-          <section class="case-section">
-            <h2>Limites de escopo e governança da correção</h2>
-            <p>
-              A análise demonstrou que a correção do problema não dependeria apenas
-              de melhorias no dashboard. A alteração de regras de status, permissões,
-              filas, responsáveis e critérios de SLA exige decisão funcional da
-              liderança e dos responsáveis pelo sistema ITSM.
-            </p>
-            <p>
-              O papel analítico do projeto foi produzir evidências, explicitar riscos,
-              propor indicadores e indicar pontos de revisão. A parametrização do
-              sistema e a redefinição do processo operacional deveriam ser conduzidas
-              por quem possui autoridade sobre a ferramenta, os fluxos e as regras de
-              atendimento.
-            </p>
-          </section>
-
-          <section class="case-section">
-            <h2>Competências demonstradas</h2>
-            <div class="skills-grid">
-              <article class="skill-card">
-                <h3>Business Intelligence</h3>
-                <p>Construção de indicadores e leitura gerencial para apoiar o acompanhamento operacional.</p>
-              </article>
-              <article class="skill-card">
-                <h3>Engenharia de Dados</h3>
-                <p>Organização de bases operacionais e preservação histórica para análise recorrente.</p>
-              </article>
-              <article class="skill-card">
-                <h3>SQL e modelagem analítica</h3>
-                <p>Estruturação de consultas, medidas e dimensões orientadas ao uso em BI.</p>
-              </article>
-              <article class="skill-card">
-                <h3>Análise de processos</h3>
-                <p>Leitura do fluxo real de atendimento a partir de status, filas e transições observadas.</p>
-              </article>
-              <article class="skill-card">
-                <h3>Governança operacional</h3>
-                <p>Identificação de riscos de rastreabilidade, responsabilização e aderência ao processo.</p>
-              </article>
-              <article class="skill-card">
-                <h3>Pensamento sistêmico</h3>
-                <p>Conexão entre dados, processo, indicadores e decisão gerencial.</p>
-              </article>
-              <article class="skill-card">
-                <h3>Comunicação executiva</h3>
-                <p>Síntese dos achados em linguagem objetiva para discussão com gestão.</p>
-              </article>
-            </div>
-          </section>
-
-          <section class="case-section">
-            <h2>Stack e técnicas utilizadas</h2>
-            <ul class="stack-list">
-              <li>Business Intelligence</li>
-              <li>SQL</li>
-              <li>Modelagem analítica</li>
-              <li>Snapshots históricos</li>
-              <li>Análise de transições</li>
-              <li>Análise de coorte</li>
-              <li>Indicadores operacionais</li>
-              <li>Camada semântica</li>
-              <li>Dashboard gerencial</li>
-            </ul>
-          </section>
-
-          <section class="case-section">
-            <h2>Conclusão</h2>
-            <p>
-              O case mostra como uma demanda de dashboard pode evoluir para um
-              diagnóstico operacional estruturado. A investigação indicou que medir
-              chamados não basta: é preciso entender se o fluxo é rastreável, se as
-              pausas possuem critério, se o backlog está visível e se os indicadores
-              representam a prática real.
-            </p>
-            <p>
-              As novas análises reforçaram que um indicador agregado de SLA pode ser
-              insuficiente quando o ciclo de vida dos chamados apresenta baixa
-              aderência ao fluxo formal. A predominância de suspensão, a baixa
-              incidência observável de tratativa ativa e as transições diretas de
-              distribuição para resolução apontam para um problema de representação
-              operacional, não apenas para um problema de visualização.
-            </p>
-            <p>
-              O resultado foi uma abordagem capaz de conectar dados, processo e
-              decisão. A correção institucional dependeria de coordenação entre
-              liderança, donos de processo, governança de TI e responsáveis pelo
-              sistema ITSM.
-            </p>
-          </section>
-
           <section class="case-section download-section">
-            <h2>Download do PDF</h2>
-            <p>
-              A versão em PDF contém a narrativa anonimizada do estudo de caso e deve
-              ser usada apenas como material complementar.
-            </p>
-            <a
-              class="button"
-              href="../assets/diagnostico-operacional-ti.pdf"
-              download
-            >
-              Baixar PDF do case
-            </a>
+            <h2>Aprofunde a leitura</h2>
+            <p>O PDF revisado reúne a narrativa completa, os cuidados de interpretação e os critérios sugeridos para uma avaliação futura.</p>
+            <a class="button" href="../assets/estudo-de-caso-diagnostico-operacional-ti-revisado.pdf" download>Baixar estudo revisado (PDF)</a>
+            <a class="text-link" href="observabilidade-chamados-ti.html">Voltar à dimensão técnica do projeto</a>
           </section>
         </div>
       </section>

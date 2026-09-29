@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Observabilidade do Ciclo de Vida de Chamados de TI | Marcelo Napolioni</title>
-    <meta name="description" content="Estudo de caso sobre uma lacuna de rastreabilidade no Aranda, histórico por snapshots diários e propostas de melhoria da governança operacional.">
+    <meta name="description" content="Estudo de caso sobre uma lacuna de rastreabilidade no sistema ITSM, histórico por snapshots diários e propostas de melhoria da governança operacional.">
     <link rel="stylesheet" href="../css/styles.css">
   </head>
   <body>
@@ -18,13 +18,16 @@
     <main>
       <section class="page-title">
         <div class="container">
-          <p class="eyebrow">Estudo de caso · Rastreabilidade operacional</p>
+          <p class="eyebrow">Estudo de caso · Dimensão técnica</p>
           <h1>Observabilidade do Ciclo de Vida de Chamados de TI</h1>
           <p>
             Como snapshots diários ajudaram a investigar o comportamento dos
             chamados em um ambiente sem audit log configurado para esse
             acompanhamento e a fundamentar propostas de melhoria.
           </p>
+          <p>O dashboard e o histórico formam a dimensão técnica deste trabalho.
+            O <a href="diagnostico-operacional-ti.html">diagnóstico operacional</a>
+            aprofunda o raciocínio analítico e as recomendações do mesmo projeto.</p>
           <div class="highlight-row" aria-label="Temas do estudo de caso">
             <span>Investigação de processos</span>
             <span>Snapshots diários</span>
@@ -40,7 +43,7 @@
             <h2>O problema: um estado atual sem histórico suficiente</h2>
             <p>
               Durante minha atuação, identifiquei uma lacuna de rastreabilidade:
-              no ambiente Aranda utilizado, não havia um audit log configurado
+              no ambiente ITSM utilizado, não havia um audit log configurado
               que fornecesse evidências históricas suficientes para acompanhar
               as mudanças de estado dos chamados ao longo do atendimento.
               Essa condição se refere à configuração do ambiente naquele período,
@@ -57,29 +60,11 @@
           <section class="case-section">
             <h2>Objetivos do dashboard</h2>
             <p>
-              O dashboard foi desenvolvido como instrumento de investigação:
+              Desenvolvi o dashboard como instrumento de investigação:
               acompanhar o comportamento dos chamados suspensos, observar
               mudanças de estado e investigar possíveis inconsistências nos
-              fluxos operacionais. Duas páginas complementares organizaram essa leitura.
+              fluxos operacionais.
             </p>
-            <div class="flow-grid" aria-label="Frentes de investigação">
-              <div>
-                <h3>Monitoramento de Chamados Suspensos</h3>
-                <p>
-                  Acompanhar a evolução do conjunto observado, sua distribuição
-                  por grupos de atendimento e os estados posteriores à suspensão,
-                  orientando a investigação de acúmulos e permanências.
-                </p>
-              </div>
-              <div>
-                <h3>Fluxo Operacional dos Chamados</h3>
-                <p>
-                  Examinar os estados anteriores e posteriores à suspensão e
-                  as mudanças observadas entre coletas, situando a suspensão
-                  dentro do fluxo de atendimento.
-                </p>
-              </div>
-            </div>
           </section>
 
           <section class="case-section">
@@ -122,13 +107,13 @@
           <section class="case-section">
             <h2>Diagnóstico e proposta de melhoria</h2>
             <p>
-              O diagnóstico central foi a necessidade de uma base de evidências
+              Identifiquei a necessidade de uma base de evidências
               mais completa sobre as mudanças dos chamados. A camada de snapshots
               ampliou a visibilidade disponível, mas a rastreabilidade continuava
               limitada pelo registro dos eventos na origem.
             </p>
             <p>
-              As recomendações documentadas e apresentadas apontaram para a
+              Documentei e apresentei recomendações para a
               evolução da rastreabilidade na origem, com um histórico de eventos
               capaz de apoiar uma análise mais fiel do ciclo de vida e fortalecer
               a governança operacional. A proposta conectou a lacuna identificada
@@ -153,6 +138,12 @@
             </p>
           </section>
 
+          <section class="case-section download-section">
+            <h2>Do histórico ao diagnóstico operacional</h2>
+            <p>A partir da recorrência de chamados registrados como suspensos, investiguei se o SLA isolado era suficiente para compreender esperas e evolução dos chamados. O aprofundamento reúne a hipótese, as entregas, as propostas e os cuidados de interpretação.</p>
+            <a class="text-link" href="diagnostico-operacional-ti.html">Ler o diagnóstico e as recomendações</a>
+            <a class="button" href="../assets/estudo-de-caso-diagnostico-operacional-ti-revisado.pdf" download>Baixar estudo revisado (PDF)</a>
+          </section>
           <section class="case-section">
             <h2>Sobre esta versão pública</h2>
             <p>
